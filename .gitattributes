@@ -1,0 +1,6 @@
+# Normalize line endings; keep binary assets untouched
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+*.jpg binary
+*.woff2 binary
