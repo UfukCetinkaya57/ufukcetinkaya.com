@@ -825,6 +825,12 @@ h2 {
   margin-bottom: 26px;
 }
 
+/* Dış link verilmeyen (gizlilik yükümlülüğü olan) projelerde m-actions
+   render edilmez; alttaki fazla boşluğu toplayalım. */
+.modal .m-stack:last-child {
+  margin-bottom: 0;
+}
+
 .modal .m-actions {
   display: flex;
   gap: 14px;

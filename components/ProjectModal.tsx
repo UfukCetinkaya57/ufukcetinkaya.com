@@ -125,16 +125,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           ))}
         </div>
 
-        <div className="m-actions">
-          <a
-            className="btn primary"
-            href={detail.link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {detail.link.label}
-          </a>
-        </div>
+        {detail.link && (
+          <div className="m-actions">
+            <a
+              className="btn primary"
+              href={detail.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {detail.link.label}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

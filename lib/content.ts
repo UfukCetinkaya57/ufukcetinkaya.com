@@ -24,7 +24,8 @@ export interface ProjectDetail {
   desc: string;
   bullets: RichText[];
   stack: string[];
-  link: ProjectLink;
+  /** Gizlilik yükümlülüğü olan projelerde dış link verilmez. */
+  link?: ProjectLink;
 }
 
 export interface Project {
@@ -34,7 +35,7 @@ export interface Project {
   summary: string;
   tags: string[];
   /** Kart üzerindeki dış link (canlı site ya da GitHub). */
-  link: ProjectLink;
+  link?: ProjectLink;
   /** Grid'de tam genişlik kaplasın mı. */
   wide?: boolean;
   detail: ProjectDetail;
@@ -221,37 +222,35 @@ export const projects: Project[] = [
   },
   {
     slug: "sales",
-    title: "Sales Growth Steps",
+    // GİZLİLİK NOTU — değiştirmeden önce oku.
+    // Bu proje karşılıklı bir NDA (2025, Çek Cumhuriyeti hukuku) kapsamındadır.
+    // Kart bilinçli olarak tam anonimdir: müşteri/partner adı, ürün adı, canlı
+    // site linki ve ürüne özgü teknoloji yığını (ör. kullanılan BaaS/veritabanı)
+    // YER ALMAZ. Burada yalnızca genel, aktarılabilir mühendislik yetkinlikleri
+    // bulunur. Bunların hiçbiri yazılı izin alınmadan geri eklenmemelidir.
+    title: "Uluslararası SaaS · Doğu Avrupa",
     badge: { label: "Canlı", kind: "live" },
-    // NDA (karşılıklı, 2025) gereği bu projede yalnızca kamuya açık düzeyde
-    // bilgi ve genel teknoloji yetkinlikleri yer alır. Ürüne özgü mimari
-    // kararlar, iş mantığı/algoritma ve güvenlik geçmişi bilinçli olarak
-    // çıkarılmıştır — yazılı izin alınmadan geri eklenmemelidir.
     summary:
-      "Doğu Avrupa pazarında hizmet veren uluslararası SaaS ürününün backend'i. .NET 8 Minimal API üzerinde Clean Architecture.",
-    tags: [".NET 8", "Minimal API", "Firebase", "JWKS"],
-    link: { href: "https://salesgrowthsteps.com", label: "Canlı ↗" },
+      "B2B SaaS ürününün backend geliştirmesi. .NET 8 Minimal API üzerinde Clean Architecture; katmanlı yapı ve token tabanlı kimlik doğrulama.",
+    tags: [".NET 8", "Minimal API", "Clean Arch", "JWT"],
     detail: {
       role: "Rol: Backend (uçtan uca mühendislik & teknik karar)",
-      desc: "Doğu Avrupa pazarında canlı, işletmelere yönelik uluslararası SaaS ürününün backend geliştirmesi.",
+      desc: "Doğu Avrupa pazarında canlı, işletmelere yönelik bir B2B SaaS ürününün backend geliştirmesi. Gizlilik yükümlülüğü nedeniyle ürün ve müşteri bilgisi paylaşılmamaktadır.",
       bullets: [
         "<b>.NET 8 Minimal API + Clean Architecture</b> ile backend geliştirme.",
-        "Firebase Auth ID token doğrulaması (<b>JWKS</b>); .NET 8 yerleşik rate limiting ve FluentValidation ile istek doğrulama.",
-        "Serilog + Correlation ID ile yapısal loglama; systemd + Nginx (Let's Encrypt TLS) ile production deployment.",
+        "Token tabanlı kimlik doğrulama; rate limiting ve <b>FluentValidation</b> ile istek doğrulama.",
+        "<b>Serilog + Correlation ID</b> ile yapısal loglama; systemd + Nginx (Let's Encrypt TLS) ile production deployment.",
       ],
       stack: [
         ".NET 8",
         "Minimal API",
         "Clean Architecture",
-        "Firebase",
-        "Firestore",
-        "JWT / JWKS",
+        "JWT",
         "FluentValidation",
         "Serilog",
         "xUnit",
         "Nginx",
       ],
-      link: { href: "https://salesgrowthsteps.com", label: "Canlı siteyi gör ↗" },
     },
   },
   {

@@ -76,14 +76,16 @@ export default function Projects() {
                 >
                   Detay →
                 </button>
-                <a
-                  className="card-link"
-                  href={project.link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {project.link.label}
-                </a>
+                {project.link && (
+                  <a
+                    className="card-link"
+                    href={project.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.link.label}
+                  </a>
+                )}
               </div>
             </Reveal>
           ))}
