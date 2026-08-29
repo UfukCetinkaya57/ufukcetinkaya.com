@@ -78,17 +78,22 @@ varsayılanıdır (`next build`).
 2. Vercel → **Add New → Project** → depoyu import edin (framework otomatik
    "Next.js" algılanır).
 3. **Deploy**.
-4. **Settings → Domains** → `ufukcetinkaya.com` ekleyin (Vercel `www` variantını
-   da eklemeyi önerir; kabul edin).
-5. Vercel size iki kayıt gösterir — **apex için A**, **www için CNAME**.
-   CNAME hedefi projeye özeldir (ör. `d1d4fc829fe7bc7c.vercel-dns-017.com`),
-   bu yüzden panelde yazan değerleri birebir kopyalayın.
-6. Alan adı **Metunic**'ten alındı → Metunic panelinde **DNS yönetimi**ne girip
-   bu iki kaydı ekleyin. TLS sertifikasını Vercel otomatik alır.
+4. **Settings → Domains** → `ufukcetinkaya.com` ve `www.ufukcetinkaya.com`
+   ekleyin (CLI ile: `vercel domains add <domain> <proje>`).
+5. Alan adı **Metunic**'ten alındı → Metunic panelinde **DNS yönetimi**ne girip
+   şu iki kaydı ekleyin:
 
-Alternatif: Metunic'te nameserver'ları Vercel'inkilerle değiştirip tüm DNS'i
-Vercel'den yönetebilirsiniz (e-posta kaydınız varsa önce onu Vercel'e taşımayı
-unutmayın).
+   | Tip | Ad / Host | Değer |
+   |-----|-----------|-------|
+   | A   | `@` (kök) | `76.76.21.21` |
+   | A   | `www`     | `76.76.21.21` |
+
+   Alternatif olarak nameserver'ları `ns1.vercel-dns.com` /
+   `ns2.vercel-dns.com` yapıp tüm DNS'i Vercel'den yönetebilirsiniz
+   (o alan adında MX/e-posta kaydınız varsa önce onları Vercel'e taşıyın).
+
+   TLS sertifikasını Vercel otomatik alır; doğrulama için
+   `vercel domains inspect ufukcetinkaya.com`.
 
 Ortam değişkeni yoktur.
 
