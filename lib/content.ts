@@ -414,5 +414,5 @@ export const contact = {
 };
 
 export const footer = {
-  text: "© 2026 Ufuk Çetinkaya · Bricolage Grotesque + Instrument Sans ile kuruldu",
+  text: "© 2026 Ufuk Çetinkaya",
 };
