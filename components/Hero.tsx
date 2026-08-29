@@ -4,10 +4,7 @@ export default function Hero() {
   return (
     <header id="top" className="hero-header">
       <div className="wrap">
-        <p className="eyebrow">
-          <span className="dot" aria-hidden="true" />
-          {hero.eyebrow}
-        </p>
+        <p className="eyebrow">{hero.eyebrow}</p>
 
         <h1 className="hero">
           {hero.headline.lead} <span className="ac">{hero.headline.accent}</span>

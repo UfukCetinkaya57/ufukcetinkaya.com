@@ -29,7 +29,7 @@
   --border-strong: rgba(90, 169, 255, 0.35);
   --accent: #5aa9ff;
   --accent-soft: #8fc4ff;
-  --glow: rgba(90, 169, 255, 0.18);
+  --glow: rgba(90, 169, 255, 0.06);
   --text: #eaf1fb;
   --muted: #8ba0bd;
   --muted2: #6f849f;
@@ -90,21 +90,8 @@ a {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(760px 520px at 82% -10%, var(--glow), transparent 60%),
-    radial-gradient(680px 560px at -10% 110%, rgba(90, 169, 255, 0.1), transparent 55%),
+    radial-gradient(900px 600px at 82% -15%, var(--glow), transparent 65%),
     linear-gradient(160deg, #0a0f1a 0%, #0b1120 55%, #0c1424 100%);
-}
-
-.bg-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
-  -webkit-mask-image: radial-gradient(circle at 50% 0%, black 0%, transparent 75%);
-  mask-image: radial-gradient(circle at 50% 0%, black 0%, transparent 75%);
 }
 
 .wrap {
@@ -201,29 +188,7 @@ a {
   letter-spacing: 0.28em;
   color: var(--accent-soft);
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   margin-bottom: 26px;
-}
-
-.eyebrow .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 14px var(--accent);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
 }
 
 h1.hero {
@@ -308,7 +273,7 @@ h1.hero .ac {
 
 .btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px -8px var(--accent);
+  box-shadow: 0 6px 18px -10px var(--accent);
 }
 
 .btn.ghost {
@@ -452,28 +417,9 @@ h2 {
   flex-direction: column;
 }
 
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-  background: radial-gradient(
-    400px 200px at var(--mx, 80%) 0%,
-    rgba(90, 169, 255, 0.08),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--border-strong);
-}
-
-.card:hover::after {
-  opacity: 1;
 }
 
 .card.wide {
@@ -800,7 +746,7 @@ h2 {
 }
 
 .modal li::before {
-  content: "▹";
+  content: "–";
   position: absolute;
   left: 0;
   color: var(--accent);

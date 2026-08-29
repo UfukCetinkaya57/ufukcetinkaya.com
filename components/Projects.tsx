@@ -17,13 +17,6 @@ export default function Projects() {
     lastTrigger.current?.focus();
   }, []);
 
-  /** Kart üstündeki hover glow'un yatay konumu. */
-  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
-  };
-
   return (
     <section id="work" className="section">
       <div className="wrap">
@@ -44,7 +37,6 @@ export default function Projects() {
               as="article"
               className={`card${project.wide ? " wide" : ""}`}
               index={i}
-              onPointerMove={onPointerMove}
             >
               <div className="card-top">
                 <h3>{project.title}</h3>

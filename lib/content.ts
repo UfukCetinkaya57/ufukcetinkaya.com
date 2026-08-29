@@ -115,7 +115,7 @@ export const hero = {
 /* ----------------------------------------------------------------- about */
 
 export const about = {
-  eyebrow: "01 — Hakkımda",
+  eyebrow: "Hakkımda",
   heading: "AI'ı kullanan değil, disipline eden mühendis.",
   paragraphs: [
     "C# / .NET ekosisteminde <b>3 yıllık production deneyimine</b> sahibim. 3 ülke pazarında hizmet veren SaaS platformlarından, 140+ belediyede kullanılan ve milyonlarca kayıt barındıran bilgi sistemlerine kadar uçtan uca sorumluluk üstlendim.",
@@ -135,7 +135,7 @@ export const about = {
 /* -------------------------------------------------------------- projects */
 
 export const projectsSection = {
-  eyebrow: "02 — Seçili Projeler",
+  eyebrow: "Seçili Projeler",
   heading: "Production'a iş çıkaran sistemler.",
   lead: 'Her kartta <b>"Detay"</b> ile projenin teknik dökümüne inebilirsin. Çoğu canlıda; ürün kodları özel, açık kaynak araçlarım GitHub\'da.',
 };
@@ -333,7 +333,7 @@ export const projects: Project[] = [
 /* ---------------------------------------------------------------- skills */
 
 export const skillsSection = {
-  eyebrow: "03 — Yetkinlikler",
+  eyebrow: "Yetkinlikler",
   heading: "Gerçek projelerde kullandığım teknolojiler.",
 };
 
@@ -375,7 +375,7 @@ export const skills: SkillGroup[] = [
 /* --------------------------------------------------------------- writing */
 
 export const writing = {
-  eyebrow: "04 — Yazılar",
+  eyebrow: "Yazılar",
   heading: "Backend & AI üzerine notlar.",
   body: "Backend mimarisi, RAG sistemleri ve AI'ı disiplinli kullanma üzerine yazılar yakında burada olacak.",
   kbd: "// blog · çok yakında",
@@ -403,7 +403,7 @@ export function getPost(slug: string): Post | undefined {
 /* --------------------------------------------------------------- contact */
 
 export const contact = {
-  eyebrow: "05 — İletişim",
+  eyebrow: "İletişim",
   heading: "Birlikte bir şeyler kuralım.",
   lead: "Yeni fırsatlara açığım. Bir projeniz ya da pozisyonunuz varsa yazın.",
   links: [

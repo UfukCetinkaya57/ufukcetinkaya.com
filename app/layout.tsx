@@ -84,7 +84,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="tr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body>
         <div className="bg-atmos" aria-hidden="true" />
-        <div className="bg-grid" aria-hidden="true" />
         <Nav />
         {children}
       </body>

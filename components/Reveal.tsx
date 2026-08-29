@@ -9,8 +9,6 @@ interface RevealProps {
   as?: ElementType;
   className?: string;
   style?: React.CSSProperties;
-  /** Kart hover glow'u için doğrudan elemana bağlanır. */
-  onPointerMove?: React.PointerEventHandler<HTMLElement>;
 }
 
 /**
@@ -23,7 +21,6 @@ export default function Reveal({
   as: Tag = "div",
   className = "",
   style,
-  onPointerMove,
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -58,7 +55,6 @@ export default function Reveal({
       ref={ref}
       className={`reveal ${className}`.trim()}
       style={{ transitionDelay: `${(index % 5) * 60}ms`, ...style }}
-      onPointerMove={onPointerMove}
     >
       {children}
     </Tag>
