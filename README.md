@@ -7,7 +7,7 @@ Tek sayfa vitrin (hero → hakkımda → projeler → yetkinlikler → yazılar 
 
 - **Next.js 16** (App Router) + **TypeScript**
 - **Tailwind CSS v4** — CSS-first; tasarım token'ları `app/globals.css` içinde CSS değişkeni
-- **next/font** ile Google Fonts: Bricolage Grotesque (başlık), Instrument Sans (gövde), Space Mono (mono)
+- **next/font** ile Google Fonts: Bricolage Grotesque (başlık), Instrument Sans (gövde)
 - Harici state / veritabanı yok — tüm içerik `lib/content.ts` içinde tipli
 - Deploy: Vercel
 
@@ -29,7 +29,7 @@ npx tsc --noEmit  # tip kontrolü
 
 ```
 app/
-  layout.tsx            fontlar, bg-atmos + bg-grid, meta/OG
+  layout.tsx            fontlar, nav, skip-link, meta/OG
   page.tsx              tek sayfa — bölümleri birleştirir
   globals.css           tasarım token'ları + tüm bileşen stilleri
   opengraph-image.tsx   1200×630 paylaşım kartı (runtime üretilir)
@@ -40,7 +40,7 @@ app/
     [slug]/page.tsx     yazı detayı
 components/
   Nav, Hero, About, Projects, ProjectModal,
-  Skills, Writing, Contact, Footer, Reveal
+  Skills, Writing, Contact, Footer, Section, ActionLink, Icon, Status
 lib/
   content.ts            TÜM içerik, tipli
   rich-text.tsx         sınırlı zengin metin (<b>, <code>, <span class="g">) → React
@@ -51,7 +51,8 @@ lib/
 Tüm metinler `lib/content.ts` içindedir; bileşenlerde sabit metin yoktur.
 
 - **Proje eklemek:** `projects` dizisine `Project` tipinde bir kayıt ekleyin.
-  `detail` alanı modalde gösterilir.
+  `detail` alanı `/projeler/[slug]` sayfasında gösterilir; `detail.architecture`
+  doldurulursa sayfada mimari çizim çıkar (yalnızca `bullets`'tan türet).
 - **Yazı eklemek:** `posts` dizisine `Post` ekleyin. Dizi doldukça `/blog`
   listesi, `/blog/[slug]` sayfası ve `sitemap.xml` otomatik çalışır —
   ek kod gerekmez.
@@ -61,11 +62,10 @@ Tüm metinler `lib/content.ts` içindedir; bileşenlerde sabit metin yoktur.
 
 ## Erişilebilirlik & kalite
 
-- Proje detay modali: `role="dialog"`, `aria-modal`, ESC ile kapanma,
-  Tab/Shift+Tab focus trap, kapanışta odağın tetikleyici butona dönmesi
-- Klavye focus'u her yerde görünür (2px mavi outline)
-- `prefers-reduced-motion` desteklenir — animasyon, geçiş ve smooth-scroll kapanır
-- Mobilde kartlar tek sütuna düşer; yatay taşma yok
+- Her projenin kendi sayfası var (paylaşılabilir link, sitemap'te); "İçeriğe geç" bağlantısı
+- Klavye focus'u her yerde görünür (2px vurgu rengi outline)
+- `prefers-reduced-motion` desteklenir — hareket opaklık geçişine iner, smooth-scroll kapanır
+- Mobilde liste ve mimari çizim tek sütuna düşer; yatay taşma yok
 - Lighthouse (prod build, mobil): **Performans 96 · Erişilebilirlik 100 ·
   Best Practices 100 · SEO 100**
 
