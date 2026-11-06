@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/Footer";
+import Icon from "@/components/Icon";
 import { getPost, posts } from "@/lib/content";
 import { rich } from "@/lib/rich-text";
 
@@ -39,24 +40,25 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <>
-      <main>
-        <article className="section" style={{ paddingTop: 160 }}>
-          <div className="wrap">
-            <p className="post-meta">{post.date}</p>
-            <h2 style={{ marginTop: 10 }}>{post.title}</h2>
+      <main id="main" className="page">
+        <article className="wrap reading">
+          <p className="post-meta">
+            <time dateTime={post.date}>{post.date}</time>
+          </p>
+          <h1 className="page-title">{post.title}</h1>
 
-            <div className="post-body">
-              {post.body.map((paragraph, i) => (
-                <p key={i}>{rich(paragraph)}</p>
-              ))}
-            </div>
-
-            <p style={{ marginTop: 34 }}>
-              <Link href="/blog" className="back-link">
-                ← Tüm yazılar
-              </Link>
-            </p>
+          <div className="prose post-body">
+            {post.body.map((paragraph, i) => (
+              <p key={i}>{rich(paragraph)}</p>
+            ))}
           </div>
+
+          <p className="back">
+            <Link href="/blog" className="text-link">
+              <Icon name="arrow-left" />
+              Tüm yazılar
+            </Link>
+          </p>
         </article>
       </main>
       <Footer />

@@ -19,6 +19,33 @@ export interface ProjectLink {
   label: string;
 }
 
+/**
+ * Mimari çizimdeki bir kutu. Metinler YALNIZCA aynı projenin `bullets`
+ * maddelerinden türetilir — çizim yeni teknik iddia taşımaz.
+ */
+export interface ArchNode {
+  name: string;
+  detail?: string;
+  /** Sistemin çekirdeği (tek kutu): daha belirgin kenarlık. */
+  core?: boolean;
+  /** Bu kutuyla ilgili `bullets` maddelerinin sırası (0 tabanlı). */
+  refs?: number[];
+}
+
+export interface ArchSteps {
+  title: string;
+  steps: string[];
+}
+
+export interface Architecture {
+  /** Yukarıdan aşağı katmanlar; her katman yan yana duran kutular. */
+  tiers: ArchNode[][];
+  /** Kısa adımlar, soldan sağa oklarla (ör. teslim hattı). */
+  pipeline?: ArchSteps;
+  /** Cümle uzunluğunda, gerçek sırası olan adımlar (numaralı). */
+  sequence?: ArchSteps;
+}
+
 export interface ProjectDetail {
   role: string;
   desc: string;
@@ -26,6 +53,7 @@ export interface ProjectDetail {
   stack: string[];
   /** Gizlilik yükümlülüğü olan projelerde dış link verilmez. */
   link?: ProjectLink;
+  architecture?: Architecture;
 }
 
 export interface Project {
@@ -91,7 +119,7 @@ export const navLinks: NavLink[] = [
 /* ------------------------------------------------------------------ hero */
 
 export const hero = {
-  eyebrow: "C# · .NET · RAG · AGENTIC AI",
+  eyebrow: "C# · .NET · RAG · Agentic AI",
   headline: { lead: "Production backend,", accent: "reinforced with agentic AI." },
   sub: {
     before: "Ben Ufuk — ",
@@ -105,7 +133,7 @@ export const hero = {
     { value: "Milyonlarca", label: "kayıt · migrasyon & optimizasyon" },
   ] satisfies Stat[],
   ctas: [
-    { href: "#work", label: "Projelere bak →", variant: "primary" as const },
+    { href: "#work", label: "Projelere bak", variant: "primary" as const },
     { href: `mailto:${site.email}`, label: "İletişime geç", variant: "ghost" as const },
     { href: site.github, label: "GitHub", variant: "ghost" as const, external: true },
     { href: site.cv, label: "CV", variant: "ghost" as const, external: true },
@@ -137,7 +165,7 @@ export const about = {
 export const projectsSection = {
   eyebrow: "Seçili Projeler",
   heading: "Production'a iş çıkaran sistemler.",
-  lead: 'Her kartta <b>"Detay"</b> ile projenin teknik dökümüne inebilirsin. Çoğu canlıda; ürün kodları özel, açık kaynak araçlarım GitHub\'da.',
+  lead: 'Her projede <b>"Detay"</b> ile projenin teknik dökümüne inebilirsin. Çoğu canlıda; ürün kodları özel, açık kaynak araçlarım GitHub\'da.',
 };
 
 export const projects: Project[] = [
@@ -148,7 +176,7 @@ export const projects: Project[] = [
     summary:
       "AI destekli mentor–menti eşleştirme ve seans yönetim SaaS'ı. pgvector ile hibrit semantik eşleştirme, atomik slot rezervasyonu, 46 ADR ile mimari disiplin.",
     tags: [".NET 10", "pgvector", "Clean Arch", "Hangfire"],
-    link: { href: "https://ankongenclik.com", label: "Canlı ↗" },
+    link: { href: "https://ankongenclik.com", label: "Canlı site" },
     detail: {
       role: "Rol: Architect · Backend · DevOps · Proje Yönetimi (uçtan uca)",
       desc: "Öğrencileri profesyonellerle AI tabanlı semantik eşleştirmeyle buluşturan; seans takvimi ve süreç yönetimini tek çatıda sunan SaaS platformu.",
@@ -179,7 +207,42 @@ export const projects: Project[] = [
         "Blazor Server",
         "Next.js",
       ],
-      link: { href: "https://ankongenclik.com", label: "Canlı siteyi gör ↗" },
+      link: { href: "https://ankongenclik.com", label: "Canlı siteyi gör" },
+      architecture: {
+        tiers: [
+          [
+            { name: "Next.js", refs: [6], detail: "Frontend" },
+            { name: "Blazor Server", refs: [6], detail: "Admin paneli" },
+          ],
+          [
+            {
+              name: "ASP.NET Core · .NET 10", refs: [0, 3, 4],
+              detail: "Clean/Layered Architecture · HS256 JWT + Argon2id · RBAC · Hangfire işleri",
+              core: true,
+            },
+          ],
+          [
+            {
+              name: "PostgreSQL 16 + pgvector", refs: [1, 2],
+              detail: "HNSW · hibrit eşleştirme · atomik conditional UPDATE ile slot rezervasyonu",
+            },
+            {
+              name: "Cloudflare Workers AI", refs: [1, 4],
+              detail: "bge-m3 embedding (1024-dim) · Polly retry + circuit breaker",
+            },
+            { name: "Google Calendar API", refs: [4], detail: "OAuth 2.0 · otomatik Meet linki" },
+          ],
+        ],
+        pipeline: {
+          title: "Teslim hattı",
+          steps: [
+            "GitHub Actions",
+            "Docker (multi-stage, non-root)",
+            "Staging (otomatik)",
+            "Production (onaylı)",
+          ],
+        },
+      },
     },
   },
   {
@@ -189,7 +252,7 @@ export const projects: Project[] = [
     summary:
       "Etkinlik medya paylaşım platformunun backend'i. Presigned URL ile R2'ye doğrudan 2 GB upload; refresh token rotation + reuse detection ile güvenli oturum.",
     tags: [".NET 9", "Cloudflare R2", "Result Pattern", "k6"],
-    link: { href: "https://anikutusu.com.tr", label: "Canlı ↗" },
+    link: { href: "https://anikutusu.com.tr", label: "Canlı site" },
     detail: {
       role: "Rol: Backend (tek başına, sıfırdan tasarım & geliştirme)",
       desc: "Düğün, doğum günü, mezuniyet gibi etkinliklerde konukların QR kod ile galeriye fotoğraf/video yüklediği bulut tabanlı SaaS'ın backend'i.",
@@ -217,7 +280,36 @@ export const projects: Project[] = [
         "k6",
         "xUnit",
       ],
-      link: { href: "https://anikutusu.com.tr", label: "Canlı siteyi gör ↗" },
+      link: { href: "https://anikutusu.com.tr", label: "Canlı siteyi gör" },
+      architecture: {
+        tiers: [
+          [{ name: "İstemci", refs: [1], detail: "Konuklar QR kod ile galeriye yükler" }],
+          [{ name: "Cloudflare + Nginx", refs: [3], detail: "API'nin önündeki proxy katmanı" }],
+          [
+            {
+              name: "ASP.NET Core · .NET 9", refs: [0, 2, 3],
+              detail:
+                "Clean Architecture · Result Pattern · 13 controller / ~59 endpoint · proxy-farkındalıklı gerçek IP + 3 katmanlı rate limiting · Hangfire",
+              core: true,
+            },
+          ],
+          [
+            { name: "MySQL", refs: [2], detail: "Refresh token'ın yalnızca SHA256 hash'i" },
+            { name: "Cloudflare R2", refs: [1], detail: "Fotoğraf ve video (2 GB'a kadar)" },
+            { name: "Google OAuth 2.0", refs: [4], detail: "Sosyal giriş" },
+            { name: "Sentry", refs: [5], detail: "KVKK uyumlu PII scrubbing" },
+          ],
+        ],
+        sequence: {
+          title: "Yükleme akışı",
+          steps: [
+            "İstemci, API'den presigned URL alır.",
+            "Dosya doğrudan Cloudflare R2'ye yüklenir; byte'lar API sunucusuna hiç uğramaz.",
+            "Yükleme, IDOR'a karşı tek kullanımlık completion token ile tamamlanır.",
+            "Yarım kalan yüklemeleri saatlik Hangfire orphan-cleanup işi temizler.",
+          ],
+        },
+      },
     },
   },
   {
@@ -251,6 +343,22 @@ export const projects: Project[] = [
         "xUnit",
         "Nginx",
       ],
+      // NDA: yalnızca genel bileşenler. Veritabanı/BaaS bilinçli olarak çizilmez.
+      architecture: {
+        tiers: [
+          [{ name: "İstemci" }],
+          [{ name: "Nginx", refs: [2], detail: "Let's Encrypt TLS" }],
+          [
+            {
+              name: ".NET 8 Minimal API", refs: [0, 1],
+              detail:
+                "Clean Architecture · token tabanlı kimlik doğrulama · rate limiting · FluentValidation · systemd ile çalışır",
+              core: true,
+            },
+          ],
+          [{ name: "Serilog", refs: [2], detail: "Yapısal loglama · Correlation ID" }],
+        ],
+      },
     },
   },
   {
@@ -262,7 +370,7 @@ export const projects: Project[] = [
     tags: [".NET 8", "Semantic Kernel", "pgvector", "SSE"],
     link: {
       href: "https://github.com/UfukCetinkaya57/enterprise-rag-dotnet",
-      label: "GitHub ↗",
+      label: "GitHub",
     },
     detail: {
       role: "Rol: Kişisel Ar-Ge / referans mimari",
@@ -286,7 +394,40 @@ export const projects: Project[] = [
       ],
       link: {
         href: "https://github.com/UfukCetinkaya57/enterprise-rag-dotnet",
-        label: "GitHub'da incele ↗",
+        label: "GitHub'da incele",
+      },
+      architecture: {
+        tiers: [
+          [{ name: "İstemci", refs: [0], detail: "Yanıt SSE ile akar" }],
+          [
+            {
+              name: ".NET 8 · Clean Architecture", refs: [1, 3],
+              detail: "Semantic Kernel · kural tabanlı prompt injection guard (TR/EN)",
+              core: true,
+            },
+          ],
+          [
+            { name: "PostgreSQL + pgvector", refs: [0], detail: "HNSW retrieval" },
+            {
+              name: "LLM sağlayıcı portu", refs: [2],
+              detail: "OpenAI ↔ Azure OpenAI ↔ on-prem Ollama",
+            },
+          ],
+        ],
+        pipeline: {
+          title: "Belge alımı",
+          steps: ["PDF (PdfPig)", "Chunking", "Embedding", "pgvector (HNSW)"],
+        },
+        sequence: {
+          title: "Sorudan yanıta",
+          steps: [
+            "İlgili parçalar pgvector (HNSW) ile getirilir.",
+            "Parçalar LLM ile yeniden sıralanır (reranking).",
+            "Kaynak atıflı yanıt üretilir.",
+            "Faithfulness/groundedness checker ajanı, yanıtın context'e dayandığını skorlar.",
+            "Skor eşiğin altındaysa generator-critic reflection loop yanıtı yeniden üretir.",
+          ],
+        },
       },
     },
   },
@@ -300,7 +441,7 @@ export const projects: Project[] = [
     tags: ["Multi-Agent", "Claude Code", "MCP", "Governance"],
     link: {
       href: "https://github.com/UfukCetinkaya57/backend-governance",
-      label: "GitHub ↗",
+      label: "GitHub",
     },
     detail: {
       role: "Rol: Kişisel açık kaynak framework (Ar-Ge)",
@@ -324,7 +465,32 @@ export const projects: Project[] = [
       ],
       link: {
         href: "https://github.com/UfukCetinkaya57/backend-governance",
-        label: "GitHub'da incele ↗",
+        label: "GitHub'da incele",
+      },
+      architecture: {
+        tiers: [
+          [
+            {
+              name: "Team Lead", refs: [0, 1],
+              detail:
+                "Koordinatör ajan · görevleri delege eder · riske göre 3 kademeli pipeline (hafif / normal / tam)",
+              core: true,
+            },
+          ],
+          [
+            {
+              name: "6 uzman alt-ajan", refs: [0, 2],
+              detail:
+                "backend · security-reviewer · quality-gate · architect · devops · qa · aralarında feedback döngüsü · en az yetki araç seviyesinde: denetleyen ajanın yazma yetkisi yok",
+            },
+          ],
+          [
+            {
+              name: "Commit", refs: [3],
+              detail: "Öncesinde sırları eleyen deterministik hook — prompt değil, atlanamaz script",
+            },
+          ],
+        ],
       },
     },
   },
@@ -378,7 +544,7 @@ export const writing = {
   eyebrow: "Yazılar",
   heading: "Backend & AI üzerine notlar.",
   body: "Backend mimarisi, RAG sistemleri ve AI'ı disiplinli kullanma üzerine yazılar yakında burada olacak.",
-  kbd: "// blog · çok yakında",
+  kbd: "Blog sayfası",
 };
 
 /**

@@ -1,35 +1,35 @@
-import Reveal from "@/components/Reveal";
-import { contact } from "@/lib/content";
+import ActionLink from "@/components/ActionLink";
+import CopyEmail from "@/components/CopyEmail";
+import Section from "@/components/Section";
+import { contact, site } from "@/lib/content";
 
 export default function Contact() {
-  return (
-    <section id="contact" className="section">
-      <div className="wrap">
-        <Reveal className="sec-eyebrow" index={0}>
-          {contact.eyebrow}
-        </Reveal>
-        <Reveal as="h2" index={1}>
-          {contact.heading}
-        </Reveal>
-        <Reveal as="p" className="lead" index={2} style={{ margin: "0 auto" }}>
-          {contact.lead}
-        </Reveal>
+  const [primary, ...rest] = contact.links;
 
-        <Reveal className="contact-links" index={3}>
-          {contact.links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={`btn ${link.variant}`}
-              {...("external" in link && link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
-              {link.label}
-            </a>
-          ))}
-        </Reveal>
+  return (
+    <Section id="contact" label={contact.eyebrow} heading={contact.heading}>
+      <p className="lead">{contact.lead}</p>
+
+      {/* Adres görünür: kopyalamak isteyen mail istemcisi açmak zorunda kalmasın. */}
+      <div className="contact-mail-row">
+        <a className="contact-mail" href={primary.href}>
+          {site.email}
+        </a>
+        <CopyEmail email={site.email} />
       </div>
-    </section>
+
+      <div className="contact-links">
+        <ActionLink href={primary.href} label={primary.label} variant="primary" />
+        {rest.map((link) => (
+          <ActionLink
+            key={link.href}
+            href={link.href}
+            label={link.label}
+            variant="text"
+            external={"external" in link && link.external}
+          />
+        ))}
+      </div>
+    </Section>
   );
 }

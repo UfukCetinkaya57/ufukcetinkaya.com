@@ -1,15 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Sans, Space_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 
 import Nav from "@/components/Nav";
 import { site } from "@/lib/content";
 
 import "./globals.css";
 
-// Bricolage Grotesque değişken bir font: opsz ekseni harf genişliğini etkiler
-// (h1'deki `max-width:15ch` buna bağlı). weight dizisi verilirse next/font sabit
-// bir kesit üretir ve opsz kilitlenir; referanstaki tipografiyi birebir korumak
-// için değişken sürümü kullanıyoruz.
+// İki font ailesi: Bricolage Grotesque (başlık) + Instrument Sans (gövde).
+// Mono font kaldırıldı: sitede gösterilen gerçek kod yok, yalnızca süs olarak
+// duruyordu. Satır içi <code> sistem mono yığınıyla basılır.
 const display = Bricolage_Grotesque({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
@@ -21,18 +20,6 @@ const body = Instrument_Sans({
   weight: ["400", "500", "600"],
   variable: "--font-body",
   display: "swap",
-});
-
-// Space Mono'da "→" gibi ok glifleri yok; tarayıcı yedek fonta düşer.
-// next/font'un otomatik ürettiği metrik-yedeği bu glifi referanstakinden geniş
-// çizip buton genişliklerini kaydırıyordu — referansın yedek zinciri sabitlendi.
-const mono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-mono",
-  display: "swap",
-  adjustFontFallback: false,
-  fallback: ["ui-monospace", "monospace"],
 });
 
 export const metadata: Metadata = {
@@ -75,15 +62,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0f1a",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3f0e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#151412" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="tr" className={`${display.variable} ${body.variable}`}>
       <body>
-        <div className="bg-atmos" aria-hidden="true" />
+        <a className="skip-link" href="#main">İçeriğe geç</a>
         <Nav />
         {children}
       </body>

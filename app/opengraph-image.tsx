@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 
+import { ogFonts } from "@/lib/og-fonts";
 import { site } from "@/lib/content";
 
 export const size = { width: 1200, height: 630 };
@@ -7,10 +8,10 @@ export const contentType = "image/png";
 export const alt = `${site.name} — ${site.role}`;
 
 /**
- * Paylaşım kartı. Renkler globals.css'teki token'larla aynı
- * (bg #0a0f1a, accent #5aa9ff, muted #8ba0bd).
+ * Paylaşım kartı. Renkler globals.css'teki açık tema token'larıyla aynı
+ * (bg #f3f0e8, accent #b4441c, muted #55524a).
  */
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
   return new ImageResponse(
     (
       <div
@@ -21,30 +22,12 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "0 90px",
-          background:
-            "radial-gradient(900px 600px at 85% -15%, rgba(90,169,255,.22), transparent 60%), linear-gradient(160deg, #0a0f1a 0%, #0b1120 55%, #0c1424 100%)",
+          background: "#f3f0e8",
+          fontFamily: "Instrument Sans",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
-            color: "#8fc4ff",
-            fontSize: 25,
-            letterSpacing: 6,
-          }}
-        >
-          <div
-            style={{
-              width: 16,
-              height: 16,
-              borderRadius: 999,
-              background: "#5aa9ff",
-              display: "flex",
-            }}
-          />
-          C# · .NET · RAG · AGENTIC AI
+        <div style={{ display: "flex", color: "#55524a", fontSize: 28 }}>
+          C# · .NET · RAG · Agentic AI
         </div>
 
         <div
@@ -52,7 +35,8 @@ export default function OpengraphImage() {
             marginTop: 34,
             fontSize: 82,
             fontWeight: 700,
-            color: "#f3f8ff",
+            fontFamily: "Bricolage Grotesque",
+            color: "#12110e",
             letterSpacing: -2,
             lineHeight: 1.05,
             display: "flex",
@@ -65,7 +49,7 @@ export default function OpengraphImage() {
           style={{
             marginTop: 20,
             fontSize: 42,
-            color: "#5aa9ff",
+            color: "#b4441c",
             fontWeight: 600,
             display: "flex",
           }}
@@ -77,7 +61,7 @@ export default function OpengraphImage() {
           style={{
             marginTop: 34,
             fontSize: 27,
-            color: "#8ba0bd",
+            color: "#55524a",
             maxWidth: 900,
             lineHeight: 1.45,
             display: "flex",
@@ -88,6 +72,6 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    { ...size, fonts: await ogFonts() },
   );
 }

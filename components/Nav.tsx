@@ -1,19 +1,32 @@
+import Link from "next/link";
+
+import CommandPalette from "@/components/CommandPalette";
 import { navLinks, site } from "@/lib/content";
 
 export default function Nav() {
   return (
-    <nav className="nav">
+    <nav className="nav" aria-label="Ana menü">
       <div className="nav-in">
-        <a href="#top" className="logo">
+        <Link href="/#top" className="logo" aria-label={`${site.name}, sayfa başı`}>
           {site.logo.mark}
           <span>{site.logo.suffix}</span>
-        </a>
+        </Link>
         <div className="nav-links">
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className={link.cta ? "nav-cta" : undefined}>
-              {link.label}
-            </a>
-          ))}
+          {navLinks
+            .filter((link) => !link.cta)
+            .map((link) => (
+              <Link key={link.href} href={`/${link.href}`} className="nav-link">
+                {link.label}
+              </Link>
+            ))}
+          <CommandPalette />
+          {navLinks
+            .filter((link) => link.cta)
+            .map((link) => (
+              <Link key={link.href} href={`/${link.href}`} className="btn ghost nav-cta">
+                {link.label}
+              </Link>
+            ))}
         </div>
       </div>
     </nav>

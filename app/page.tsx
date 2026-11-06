@@ -9,7 +9,7 @@ import Writing from "@/components/Writing";
 export default function Home() {
   return (
     <>
-      <main>
+      <main id="main">
         <Hero />
         <About />
         <Projects />

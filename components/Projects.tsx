@@ -1,90 +1,52 @@
-"use client";
+import Link from "next/link";
 
-import { useCallback, useRef, useState } from "react";
-
-import ProjectModal from "@/components/ProjectModal";
-import Reveal from "@/components/Reveal";
-import { projects, projectsSection, type Project } from "@/lib/content";
+import ActionLink from "@/components/ActionLink";
+import Icon from "@/components/Icon";
+import Section from "@/components/Section";
+import Status from "@/components/Status";
+import { projects, projectsSection } from "@/lib/content";
 import { rich } from "@/lib/rich-text";
 
 export default function Projects() {
-  const [active, setActive] = useState<Project | null>(null);
-  /** Modal kapanınca odak "Detay" butonuna geri döner. */
-  const lastTrigger = useRef<HTMLButtonElement | null>(null);
-
-  const close = useCallback(() => {
-    setActive(null);
-    lastTrigger.current?.focus();
-  }, []);
-
   return (
-    <section id="work" className="section">
-      <div className="wrap">
-        <Reveal className="sec-eyebrow" index={0}>
-          {projectsSection.eyebrow}
-        </Reveal>
-        <Reveal as="h2" index={1}>
-          {projectsSection.heading}
-        </Reveal>
-        <Reveal as="p" className="lead" index={2} style={{ marginBottom: 40 }}>
-          {rich(projectsSection.lead)}
-        </Reveal>
+    <Section id="work" label={projectsSection.eyebrow} heading={projectsSection.heading}>
+      <p className="lead">{rich(projectsSection.lead)}</p>
 
-        <div className="projects">
-          {projects.map((project, i) => (
-            <Reveal
-              key={project.slug}
-              as="article"
-              className={`card${project.wide ? " wide" : ""}`}
-              index={i}
-            >
-              <div className="card-top">
-                <h3>{project.title}</h3>
-                <span className={`badge ${project.badge.kind}`}>
-                  {project.badge.kind === "live" ? "● " : ""}
-                  {project.badge.label}
-                </span>
-              </div>
+      {/* Eşit kart ızgarası yerine okunur bir liste: ad + durum solda, anlatım sağda. */}
+      <ol className="project-list">
+        {projects.map((project) => (
+          <li key={project.slug} className="project">
+            <div className="project-head">
+              <h3>{project.title}</h3>
+              <Status badge={project.badge} />
+            </div>
 
+            <div className="project-body">
               <p>{project.summary}</p>
+              <p className="stack">
+                <span className="sr-only">Teknolojiler: </span>
+                {project.tags.join(" · ")}
+              </p>
 
-              <div className="tags">
-                {project.tags.map((tag) => (
-                  <span className="tag" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="card-actions">
-                <button
-                  type="button"
-                  className="detail-btn"
-                  aria-haspopup="dialog"
-                  onClick={(e) => {
-                    lastTrigger.current = e.currentTarget;
-                    setActive(project);
-                  }}
-                >
-                  Detay →
-                </button>
+              <div className="project-actions">
+                <Link href={`/projeler/${project.slug}`} className="btn ghost">
+                  Detay
+                  <span className="sr-only">: {project.title}</span>
+                  <Icon name="arrow-right" />
+                </Link>
                 {project.link && (
-                  <a
-                    className="card-link"
+                  <ActionLink
                     href={project.link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.link.label}
-                  </a>
+                    label={project.link.label}
+                    variant="text"
+                    external
+                  />
                 )}
               </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {active && <ProjectModal project={active} onClose={close} />}
-    </section>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </Section>
   );
 }
